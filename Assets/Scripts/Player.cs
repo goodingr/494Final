@@ -54,26 +54,27 @@ public class Player : MonoBehaviour {
         u = 0;
         Destroy(go);
     }
-        public void Exude(GameObject go) {
+
+    public void Exude(GameObject go) {
             
-            // Calculate current volume, subtract volume of 'Pickdown' and adjust scale
-            double radius = targetScale.x/2f;
-            double volume = (4.0/3.0) * System.Math.PI * System.Math.Pow(radius, 3);
-            volume -= (4.0/3.0) * System.Math.PI * System.Math.Pow(go.transform.localScale.x / 2.0, 3);
-            radius = System.Math.Pow((3.0 * volume/(4.0 * System.Math.PI)), 1.0/3.0);
+        // Calculate current volume, subtract volume of 'Pickdown' and adjust scale
+        double radius = targetScale.x/2f;
+        double volume = (4.0/3.0) * System.Math.PI * System.Math.Pow(radius, 3);
+        volume -= (4.0/3.0) * System.Math.PI * System.Math.Pow(go.transform.localScale.x / 2.0, 3);
+        radius = System.Math.Pow((3.0 * volume/(4.0 * System.Math.PI)), 1.0/3.0);
         
             
-            float circ = (float) (radius * 2.0);
+        float circ = (float) (radius * 2.0);
             
-            if(circ < 0.5f) {
-                circ = 0.5f;
-            }
-            
-            targetScale = new Vector3(circ, circ, circ);
-            scaleStart = Time.time;
-            u = 0;
-            Destroy(go);
+        if(circ < 0.5f) {
+            circ = 0.5f;
         }
+            
+        targetScale = new Vector3(circ, circ, circ);
+        scaleStart = Time.time;
+        u = 0;
+        Destroy(go);
+    }
     
 
 }
