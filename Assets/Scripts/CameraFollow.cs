@@ -22,7 +22,7 @@ public class CameraFollow : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        u += Time.deltaTime;
+        u = u + Time.deltaTime;
         if (u < interpTime) {
             transform.position = player.transform.position + ((interpTime - u) * originOffset + u * offset) / interpTime;
         }
