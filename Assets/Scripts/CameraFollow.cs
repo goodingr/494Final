@@ -50,6 +50,7 @@ public class CameraFollow : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.R))
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            Physics.gravity = new Vector3(0, -10, 0);
         }
 	}
 }
