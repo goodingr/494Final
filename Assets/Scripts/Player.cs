@@ -5,14 +5,23 @@ using System.Collections.Generic;
 public class Player : MonoBehaviour {
 
     public static Player    S;
-
+    
+    private int starsCollected = 0;
+    public int StarsCollected {
+        get {return starsCollected;}
+        
+    }
+    
+    
+    [Header("Movement")]
     public float            speed;
-    public float            u = 0;
+    
     public float scaleDuration = 1.0f;
     float scaleStart;
     public Vector3 targetScale;
 
     public SphereCollider col;
+    
     
     private Rigidbody rigid;
 
@@ -30,7 +39,7 @@ public class Player : MonoBehaviour {
         Vector3 movement = new Vector3(iH, 0, 0.0f);
         rigid.AddForce(movement * speed);
         if (Time.time < scaleStart + scaleDuration ){
-            u = Time.time - scaleStart;
+            float u = Time.time - scaleStart;
 
             Vector3 scale = (1-u) * transform.localScale + u*targetScale;
 
@@ -53,7 +62,6 @@ public class Player : MonoBehaviour {
         
         targetScale = new Vector3(circ, circ, circ);
         scaleStart = Time.time;
-        u = 0;
         Destroy(go);
     }
     public void Exude(GameObject go) {
@@ -74,9 +82,15 @@ public class Player : MonoBehaviour {
             
         targetScale = new Vector3(circ, circ, circ);
         scaleStart = Time.time;
-        u = 0;
         Destroy(go);
     }
     
+    void OnTriggerEnter(Collider other) {
+        if(other.gameObject.tag == "Star") {
+            Destroy(other.gameObject);
+            starsCollected++;
+            
+        }
+    }
 
 }
