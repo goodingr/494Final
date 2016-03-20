@@ -11,8 +11,14 @@ public class Player : MonoBehaviour {
         get {return starsCollected;}
         
     }
-    
-    
+
+    [Header("Snowflake Mechanic")]
+    public Vector3 startPosition;
+    public GameObject frozenBall;
+    public float frostPickupTime = 0;
+    public float frostCountdownTime = 3;
+
+
     [Header("Movement")]
     public float            speed;
     
@@ -31,7 +37,18 @@ public class Player : MonoBehaviour {
         targetScale = transform.localScale;
 	    rigid = GetComponent<Rigidbody>();
         col = GetComponent<SphereCollider>();
+        startPosition = transform.position;
 	}
+
+    void Update()
+    {
+        if(frostPickupTime != 0 && Time.time - frostPickupTime > frostCountdownTime)
+        {
+            Instantiate(frozenBall, transform.position, Quaternion.identity);
+            transform.position = startPosition;
+            frostPickupTime = 0;
+        }
+    }
 	
 	// Update is called once per frame
 	void FixedUpdate () {
@@ -89,8 +106,11 @@ public class Player : MonoBehaviour {
         if(other.gameObject.tag == "Star") {
             Destroy(other.gameObject);
             starsCollected++;
-            
+        }
+        else if(other.gameObject.tag == "Snowflake")
+        {
+            Destroy(other.gameObject);
+            frostPickupTime = Time.time;
         }
     }
-
 }
