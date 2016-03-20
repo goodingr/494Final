@@ -58,6 +58,7 @@ public class Door : MonoBehaviour {
         moveStart = Time.time;
     }
     public void Close() {
-        
+        state = State.Closing;
+        moveStart = Time.time;
     }
 }
