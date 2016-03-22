@@ -17,7 +17,7 @@ public class Goal : MonoBehaviour {
 	}
     
     void OnTriggerStay(Collider other) {
-        if(Utils.BoundsInBoundsCheck(other.bounds, col.bounds) == Vector3.zero) {
+        if(Utils.BoundsInBoundsCheck(other.bounds, col.bounds, BoundsTest.offScreen) == Vector3.zero) {
             particles.SetActive(true);
             
         }
