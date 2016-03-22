@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+using UnityEngine.SceneManagement;
 public class Main : MonoBehaviour {
 
     static public Main S;
-    private int level = 0;
-
+    
+    
 	// Use this for initialization
 	void Start () {
 	    S = this;
@@ -15,4 +15,9 @@ public class Main : MonoBehaviour {
 	void Update () {
 	
 	}
+    public void LoadNextLevel() {
+        Physics.gravity = new Vector3(0, -10, 0);
+
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+    }
 }

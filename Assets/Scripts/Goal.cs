@@ -17,9 +17,13 @@ public class Goal : MonoBehaviour {
 	}
     
     void OnTriggerStay(Collider other) {
+        if(other.gameObject.tag != "Player") return;
         if(Utils.BoundsInBoundsCheck(other.bounds, col.bounds, BoundsTest.offScreen) == Vector3.zero) {
             particles.SetActive(true);
-            
+            Invoke("LoadNextLevel", 1.5f);
         }
+    }
+    void LoadNextLevel() {
+        Main.S.LoadNextLevel();
     }
 }
