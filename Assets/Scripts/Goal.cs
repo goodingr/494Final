@@ -20,7 +20,7 @@ public class Goal : MonoBehaviour {
         if(other.gameObject.tag != "Player") return;
         if(Utils.BoundsInBoundsCheck(other.bounds, col.bounds, BoundsTest.offScreen) == Vector3.zero) {
             particles.SetActive(true);
-            Invoke("LoadNextLevel", 1.5f);
+            Invoke("LoadNextLevel", 3f);
         }
     }
     void LoadNextLevel() {
