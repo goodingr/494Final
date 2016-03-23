@@ -6,6 +6,7 @@ public class Player : MonoBehaviour {
 
     public static Player    S;
     
+	public bool switchable = false;
     private int starsCollected = 0;
     public int StarsCollected {
         get {return starsCollected;}
@@ -27,7 +28,7 @@ public class Player : MonoBehaviour {
     public Vector3 targetScale;
 
     public SphereCollider col;
-    
+	public bool rotated = false;
     
     private Rigidbody rigid;
 
@@ -52,9 +53,27 @@ public class Player : MonoBehaviour {
 	
 	// Update is called once per frame
 	void FixedUpdate () {
-	   float iH = Input.GetAxis("Horizontal");
-        Vector3 movement = new Vector3(iH, 0, 0.0f);
-        rigid.AddForce(movement * speed);
+
+		if (Input.GetKeyDown ("space")) {
+			if (switchable)
+				rotated = !rotated;
+			else
+				print ("Unable to rotate at this position");
+		}
+
+		if (!rotated) {
+			float iH = Input.GetAxis ("Horizontal");
+			Vector3 movement = new Vector3 (iH, 0, 0.0f);
+			rigid.AddForce (movement * speed);
+			GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionZ;
+		} else if(rotated) {
+			float iH = Input.GetAxis ("Horizontal");
+			Vector3 movement = new Vector3 (0, 0, iH);
+			rigid.AddForce (movement * speed);	
+			GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionX;
+		}
+
+
         if (Time.time < scaleStart + scaleDuration ){
             float u = Time.time - scaleStart;
 

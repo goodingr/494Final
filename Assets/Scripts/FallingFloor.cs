@@ -14,7 +14,9 @@ public class FallingFloor : MonoBehaviour {
 	}
 
 	void onCollisionEnter(Collider col) {
+		print ("collision in general");
 		if (col.gameObject.tag == "Player") {
+			print ("collision with player");
 			GetComponent<Rigidbody> ().useGravity = true;
 		}
 	}
