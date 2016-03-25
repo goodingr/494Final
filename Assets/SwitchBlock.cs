@@ -17,7 +17,7 @@ public class SwitchBlock : MonoBehaviour {
 		if (col.gameObject.tag == "Player") {
 			Player.S.switchable = true;
 
-			if(Input.GetKeyDown("space"))
+			if(Input.GetKeyDown("w") || Input.GetKeyDown("a") || Input.GetKeyDown("s") || Input.GetKeyDown("d"))
 				Player.S.transform.position = gameObject.transform.position;
 		}
 	}

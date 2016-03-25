@@ -11,12 +11,13 @@ public class CameraFollow : MonoBehaviour {
     private float u;
     private Vector3 originOffset;
 
-    public Vector3 regularGravityOffset = new Vector3(0, 4.5f, -4);
+    public Vector3 regularGravityOffset = new Vector3(-2.02f, 1.98f, -9.82f);
     public Vector3 inverseGravityOffset = new Vector3(0, -2f, -4);
 
 	// Use this for initialization
 	void Start () {
         offset = regularGravityOffset;
+		offset = new Vector3();
         originOffset = offset;
 	}
 	
@@ -31,13 +32,13 @@ public class CameraFollow : MonoBehaviour {
             transform.position = player.transform.position + offset;
         }
 
+		
         if (Physics.gravity.y < 0 && offset != regularGravityOffset)
         {
             originOffset = offset;
             offset = regularGravityOffset;
             u = 0;
         }
-
         else if(Physics.gravity.y > 0 && offset != inverseGravityOffset)
         {
             originOffset = offset;
