@@ -32,9 +32,20 @@ public class Player : MonoBehaviour {
     
     private Rigidbody rigid;
 
-	// Use this for initialization
-	void Start () {
-        S = this;
+    void Awake()
+    {
+        if (!S)
+        {
+            S = this;
+        }
+        else
+        {
+            Debug.Log("Error: Multiple player objects.");
+        }
+    }
+
+    // Use this for initialization
+    void Start () {
         targetScale = transform.localScale;
 	    rigid = GetComponent<Rigidbody>();
         col = GetComponent<SphereCollider>();

@@ -4,18 +4,19 @@ using UnityEngine.SceneManagement;
 
 public class CameraFollow : MonoBehaviour {
 
-    public GameObject player;
+    private GameObject player;
     private Vector3 offset;
 
     public float interpTime = 3f;
     private float u;
     private Vector3 originOffset;
 
-    public Vector3 regularGravityOffset = new Vector3(-2.02f, 1.98f, -9.82f);
-    public Vector3 inverseGravityOffset = new Vector3(0, -2f, -4);
+    public Vector3 regularGravityOffset;
+    public Vector3 inverseGravityOffset;
 
 	// Use this for initialization
 	void Start () {
+        player = Player.S.gameObject;
         offset = regularGravityOffset;
 		offset = new Vector3();
         originOffset = offset;
@@ -45,8 +46,6 @@ public class CameraFollow : MonoBehaviour {
             offset = inverseGravityOffset;
             u = 0;
         }
-
-
 
         if (Input.GetKeyDown(KeyCode.R))
         {
