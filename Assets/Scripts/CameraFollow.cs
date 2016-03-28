@@ -8,6 +8,7 @@ public class CameraFollow : MonoBehaviour {
     private Vector3 offset;
 
     public float interpTime = 3f;
+    public float playerSizeCameraChangeMultiplier;
     private float u;
     private Vector3 originOffset;
 
@@ -25,12 +26,13 @@ public class CameraFollow : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         u = u + Time.deltaTime;
+        Vector3 playerSizeCameraChange = new Vector3(0, 0, -Vector3.Magnitude(player.transform.localScale)) * playerSizeCameraChangeMultiplier;
         if (u < interpTime) {
-            transform.position = player.transform.position + ((interpTime - u) * originOffset + u * offset) / interpTime;
+            transform.position = player.transform.position + ((interpTime - u) * originOffset + u * (offset + playerSizeCameraChange)) / interpTime;
         }
         else
         {
-            transform.position = player.transform.position + offset;
+            transform.position = player.transform.position + offset + playerSizeCameraChange;
         }
 
 		
