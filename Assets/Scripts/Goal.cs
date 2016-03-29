@@ -9,7 +9,9 @@ public class Goal : MonoBehaviour {
 	void Start () {
 	    particles = transform.Find("Particles").gameObject;
         col = transform.GetComponent<Collider>();
+
 	}
+
 	
 	// Update is called once per frame
 	void Update () {

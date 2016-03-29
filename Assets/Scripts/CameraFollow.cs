@@ -21,6 +21,7 @@ public class CameraFollow : MonoBehaviour {
         offset = regularGravityOffset;
 		offset = new Vector3();
         originOffset = offset;
+		player = Player.S.gameObject;
 	}
 	
 	// Update is called once per frame
