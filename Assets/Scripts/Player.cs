@@ -65,25 +65,9 @@ public class Player : MonoBehaviour {
 	// Update is called once per frame
 	void FixedUpdate () {
 
-		if (Input.GetKeyDown("w") || Input.GetKeyDown("a") || Input.GetKeyDown("s") || Input.GetKeyDown("d")) {
-			if (switchable)
-				rotated = !rotated;
-			else
-				print ("Unable to rotate at this position");
-		}
-
-		if (!rotated) {
-			float iH = Input.GetAxis ("Horizontal");
-			Vector3 movement = new Vector3 (iH, 0, 0.0f);
-			rigid.AddForce (movement * speed);
-			GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionZ;
-		} else if(rotated) {
-			float iH = Input.GetAxis ("Vertical");
-			Vector3 movement = new Vector3 (0, 0, iH);
-			rigid.AddForce (movement * speed);	
-			GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionX;
-		}
-
+		float iH = Input.GetAxis ("Horizontal");
+		Vector3 movement = new Vector3 (iH, 0, 0.0f);
+		rigid.AddForce (movement * speed);
 
         if (Time.time < scaleStart + scaleDuration ){
             float u = Time.time - scaleStart;
