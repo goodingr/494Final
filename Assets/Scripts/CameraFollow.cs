@@ -11,6 +11,7 @@ public class CameraFollow : MonoBehaviour {
     public float playerSizeCameraChangeMultiplier;
     private float u;
     private Vector3 originOffset;
+    private bool openingPan = true;
 
     public Vector3 regularGravityOffset;
     public Vector3 inverseGravityOffset;
@@ -19,8 +20,7 @@ public class CameraFollow : MonoBehaviour {
 	void Start () {
         player = Player.S.gameObject;
         offset = regularGravityOffset;
-		offset = new Vector3();
-        originOffset = offset;
+        originOffset = transform.position;
 		player = Player.S.gameObject;
 	}
 	
@@ -34,8 +34,13 @@ public class CameraFollow : MonoBehaviour {
         else
         {
             transform.position = player.transform.position + offset + playerSizeCameraChange;
+            openingPan = false;
         }
 
+        if (!openingPan)
+        {
+            Player.S.allowMovement = true;
+        }
 		
         if (Physics.gravity.y < 0 && offset != regularGravityOffset)
         {

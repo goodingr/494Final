@@ -22,6 +22,7 @@ public class Player : MonoBehaviour {
 
     [Header("Movement")]
     public float            speed;
+    public bool allowMovement = false;
     
     public float scaleDuration = 1.0f;
     float scaleStart;
@@ -65,18 +66,19 @@ public class Player : MonoBehaviour {
 	// Update is called once per frame
 	void FixedUpdate () {
 
-		float iH = Input.GetAxis ("Horizontal");
-		Vector3 movement = new Vector3 (iH, 0, 0.0f);
-		rigid.AddForce (movement * speed);
+        if (allowMovement)
+        {
+            float iH = Input.GetAxis("Horizontal");
+            Vector3 movement = new Vector3(iH, 0, 0.0f);
+            rigid.AddForce(movement * speed);
 
-        if (Time.time < scaleStart + scaleDuration ){
-            float u = Time.time - scaleStart;
-
-            Vector3 scale = (1-u) * transform.localScale + u*targetScale;
-
-            transform.localScale = scale;
+            if (Time.time < scaleStart + scaleDuration)
+            {
+                float u = Time.time - scaleStart;
+                Vector3 scale = (1 - u) * transform.localScale + u * targetScale;
+                transform.localScale = scale;
+            }
         }
-    
 	}
     
     public void Absorb(GameObject go) {
