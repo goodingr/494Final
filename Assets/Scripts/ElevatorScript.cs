@@ -11,7 +11,6 @@ public class ElevatorScript : MonoBehaviour
     public float timeBetweenFloors;
 
     private int directionToggle = 1;
-    private int floorNum = 0;
     private float floorTime = 0;
     private float u = 0;
     private Vector3 lastFloorPos;
