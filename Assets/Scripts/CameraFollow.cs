@@ -18,6 +18,7 @@ public class CameraFollow : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        SetObliqueness(0, .2f);
         player = Player.S.gameObject;
         offset = regularGravityOffset;
         originOffset = transform.position;
@@ -61,4 +62,12 @@ public class CameraFollow : MonoBehaviour {
             Physics.gravity = new Vector3(0, -10, 0);
         }
 	}
+
+    void SetObliqueness(float horizObl, float vertObl)
+    {
+        Matrix4x4 mat = Camera.main.projectionMatrix;
+        mat[0, 2] = horizObl;
+        mat[1, 2] = vertObl;
+        Camera.main.projectionMatrix = mat;
+    }
 }
