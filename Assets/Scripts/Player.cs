@@ -30,6 +30,7 @@ public class Player : MonoBehaviour {
 
     public SphereCollider col;
 	public bool rotated = false;
+    public bool isMobile;
     
     private Rigidbody rigid;
 
@@ -42,6 +43,15 @@ public class Player : MonoBehaviour {
         else
         {
             Debug.Log("Error: Multiple player objects.");
+        }
+        if (Application.platform == RuntimePlatform.Android ||
+            Application.platform == RuntimePlatform.IPhonePlayer)
+        {
+            isMobile = true;
+        }
+        else
+        {
+            isMobile = false;
         }
     }
 
@@ -68,7 +78,15 @@ public class Player : MonoBehaviour {
 
         if (allowMovement)
         {
-            float iH = Input.GetAxis("Horizontal");
+            float iH;
+            if (isMobile)
+            {
+                iH = Input.acceleration.x;
+            }
+            else
+            {
+                iH = Input.GetAxis("Horizontal");
+            }
             Vector3 movement = new Vector3(iH, 0, 0.0f);
             rigid.AddForce(movement * speed);
 
