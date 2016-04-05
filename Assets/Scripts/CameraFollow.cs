@@ -15,8 +15,12 @@ public class CameraFollow : MonoBehaviour {
 
     public Vector3 regularGravityOffset;
     public Vector3 inverseGravityOffset;
+	public static CameraFollow C;
     public float verticalLensShiftOffset;
 
+	void Awake() {
+		C = this;
+	}
 
 	// Use this for initialization
 	void Start () {
