@@ -10,8 +10,8 @@ public class Display : MonoBehaviour {
 	void FixedUpdate() {
 		time += Time.deltaTime;
 
-		var minutes = time / 60; 
-		var seconds = time % 60;
+		int minutes = (int) time / 60; 
+		int seconds = (int) time % 60;
 
 		//update the label value
 		timerLabel.text = string.Format ("{0:0}:{1:00}", minutes, seconds);
