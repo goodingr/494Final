@@ -13,7 +13,10 @@ public class Main : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
+		float skip = Input.GetAxis ("Skip");
+		if(skip > 0) {
+			LoadNextLevel ();
+		}
 	}
     public void LoadNextLevel() {
         Physics.gravity = new Vector3(0, -10, 0);
