@@ -9,9 +9,12 @@ public class Space_plumber : MonoBehaviour {
 	private float startTime;
 	private float journeyLength;
 	float endx;
+	public LineRenderer lineRenderer;
+	public Vector3 transforms;
 
 	// Use this for initialization
 	void Start () {
+		lineRenderer = GetComponent<LineRenderer> ();
 		endMarker = Player.S.transform;
 		endx = endMarker.transform.position.x;
 		startMarker = transform;
@@ -25,9 +28,19 @@ public class Space_plumber : MonoBehaviour {
 		float distCovered = (Time.time - startTime) * speed;
 		float fracJourney = distCovered / journeyLength;
 
-		//transform.position = Vector3.Lerp(startMarker.position, new Vector3(endMarker.position.x - 1, endMarker.position.y, endMarker.position.z), fracJourney);
+		print (Player.S.GetComponent<SphereCollider>().radius);
+		//transform.position = Vector3.MoveTowards(transform.position, Player.S.transform.position, speed * Time.deltaTime);
+		transform.position = Vector3.MoveTowards(transform.position, new Vector3(Player.S.transform.position.x -  Player.S.transform.localScale.x - 2, Player.S.transform.position.y, Player.S.transform.position.z), speed * Time.deltaTime);
+		lineRenderer.SetWidth(0, Player.S.transform.localScale.x);
 
-		transform.position = Vector3.MoveTowards(transform.position, Player.S.transform.position, speed * Time.deltaTime);
 
+		Vector3[] points = new Vector3[2];
+		float t = Time.time;
+		int i = 0;
+		points [0] = transform.position;
+		points [1] = Player.S.transform.position;
+
+		lineRenderer.SetPositions(points);
 	}
 }
+
