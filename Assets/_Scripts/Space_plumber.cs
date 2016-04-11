@@ -11,6 +11,7 @@ public class Space_plumber : MonoBehaviour {
 	float endx;
 	public LineRenderer lineRenderer;
 	public Vector3 transforms;
+	private bool tooClose = false;
 
 	// Use this for initialization
 	void Start () {
@@ -23,18 +24,30 @@ public class Space_plumber : MonoBehaviour {
 	}
 
 	// Update is called once per frame
-	void FixedUpdate () {
+	void Update () {
 		//move towards the player
 		float distCovered = (Time.time - startTime) * speed;
 		float fracJourney = distCovered / journeyLength;
 	
 		Vector3 vel = Player.S.GetComponent<Rigidbody> ().velocity;
-		if(vel.x >= 0)
+		if(vel.x >= 0 && tooClose == false)
 		//transform.position = Vector3.MoveTowards(transform.position, Player.S.transform.position, speed * Time.deltaTime);
 			transform.position = Vector3.MoveTowards(transform.position, new Vector3(Player.S.transform.position.x -  Player.S.transform.localScale.x - 2, Player.S.transform.position.y, Player.S.transform.position.z), speed * Time.deltaTime);
-		if(vel.x < 0)
+		if(vel.x < 0 && tooClose == false)
 			transform.position = Vector3.MoveTowards(transform.position, new Vector3(Player.S.transform.position.x +  Player.S.transform.localScale.x + 2, Player.S.transform.position.y, Player.S.transform.position.z), speed * Time.deltaTime);
+
+		GameObject rotateObject = new GameObject ();
+
+		if (vel.x > 1f)
+			rotateObject.transform.localEulerAngles = new Vector3 (0f, 0f, -60f);
+		else if (vel.x < -1f)
+			rotateObject.transform.localEulerAngles = new Vector3 (0f, 0f, 60f);
+		else
+			rotateObject.transform.localEulerAngles = new Vector3 (0f, 0f, 0f);
 		
+		float step = 5f * Time.deltaTime;
+		transform.rotation = Quaternion.RotateTowards(transform.rotation, rotateObject.transform.rotation, step);
+
 		lineRenderer.SetWidth(0, Player.S.transform.localScale.x);
 
 
@@ -45,6 +58,18 @@ public class Space_plumber : MonoBehaviour {
 		points [1] = Player.S.transform.position;
 
 		lineRenderer.SetPositions(points);
+	}
+
+	void OnTriggerEnter(Collider coll) {
+		if (coll.gameObject.tag == "Player") {
+			tooClose = true;
+		}
+	}
+
+	void OnTriggerExit(Collider coll) {
+		if (coll.gameObject.tag == "Player") {
+			tooClose = false;
+		}
 	}
 }
 
