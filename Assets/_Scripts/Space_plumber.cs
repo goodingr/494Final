@@ -27,10 +27,14 @@ public class Space_plumber : MonoBehaviour {
 		//move towards the player
 		float distCovered = (Time.time - startTime) * speed;
 		float fracJourney = distCovered / journeyLength;
-
-		print (Player.S.GetComponent<SphereCollider>().radius);
+	
+		Vector3 vel = Player.S.GetComponent<Rigidbody> ().velocity;
+		if(vel.x >= 0)
 		//transform.position = Vector3.MoveTowards(transform.position, Player.S.transform.position, speed * Time.deltaTime);
-		transform.position = Vector3.MoveTowards(transform.position, new Vector3(Player.S.transform.position.x -  Player.S.transform.localScale.x - 2, Player.S.transform.position.y, Player.S.transform.position.z), speed * Time.deltaTime);
+			transform.position = Vector3.MoveTowards(transform.position, new Vector3(Player.S.transform.position.x -  Player.S.transform.localScale.x - 2, Player.S.transform.position.y, Player.S.transform.position.z), speed * Time.deltaTime);
+		if(vel.x < 0)
+			transform.position = Vector3.MoveTowards(transform.position, new Vector3(Player.S.transform.position.x +  Player.S.transform.localScale.x + 2, Player.S.transform.position.y, Player.S.transform.position.z), speed * Time.deltaTime);
+		
 		lineRenderer.SetWidth(0, Player.S.transform.localScale.x);
 
 
