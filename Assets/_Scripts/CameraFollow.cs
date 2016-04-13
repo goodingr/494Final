@@ -9,6 +9,7 @@ public class CameraFollow : MonoBehaviour {
 
     public float interpTime = 3f;
     public float playerSizeCameraChangeMultiplier;
+    public float playerSpeedCameraChangeMultiplier;
     private float u;
     private Vector3 originOffset;
     private bool openingPan = true;
@@ -41,12 +42,13 @@ public class CameraFollow : MonoBehaviour {
         SetObliqueness(0, verticalLensShiftOffset);
         u = u + Time.deltaTime;
         Vector3 playerSizeCameraChange = new Vector3(0, 0, -Vector3.Magnitude(player.transform.localScale)) * playerSizeCameraChangeMultiplier;
+        Vector3 playerSpeedCameraChange = new Vector3(0, 0, -Vector3.Magnitude(player.GetComponent<Rigidbody>().velocity)) * playerSpeedCameraChangeMultiplier;
         if (u < interpTime) {
-            transform.position = player.transform.position + ((interpTime - u) * originOffset + u * (offset + playerSizeCameraChange)) / interpTime;
+            transform.position = player.transform.position + ((interpTime - u) * originOffset + u * (offset + playerSizeCameraChange + playerSpeedCameraChange)) / interpTime;
         }
         else
         {
-            transform.position = player.transform.position + offset + playerSizeCameraChange;
+            transform.position = player.transform.position + offset + playerSizeCameraChange + playerSpeedCameraChange;
             openingPan = false;
         }
 
