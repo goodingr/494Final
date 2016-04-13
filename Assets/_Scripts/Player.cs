@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour {
 
@@ -13,11 +14,9 @@ public class Player : MonoBehaviour {
         
     }
 
-    [Header("Snowflake Mechanic")]
     public Vector3 startPosition;
-    public GameObject frozenBall;
-    public float frostPickupTime = 0;
-    public float frostCountdownTime = 3;
+    private float deathTime = 0;
+    public float deathRestartTime = 2;
 
 
     [Header("Movement")]
@@ -33,6 +32,7 @@ public class Player : MonoBehaviour {
     public bool isMobile;
     
     private Rigidbody rigid;
+    private 
 
     void Awake()
     {
@@ -65,11 +65,9 @@ public class Player : MonoBehaviour {
 
     void Update()
     {
-        if(frostPickupTime != 0 && Time.time - frostPickupTime > frostCountdownTime)
+        if(deathTime != 0 && Time.time - deathTime > deathRestartTime)
         {
-            Instantiate(frozenBall, transform.position, Quaternion.identity);
-            transform.position = startPosition;
-            frostPickupTime = 0;
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
     }
 	
@@ -140,10 +138,10 @@ public class Player : MonoBehaviour {
             Destroy(other.gameObject);
             starsCollected++;
         }
-        else if(other.gameObject.tag == "Snowflake")
+        else if(other.gameObject.tag == "FallBoundary")
         {
-            Destroy(other.gameObject);
-            frostPickupTime = Time.time;
+            CameraFollow.C.freeze = true;
+            deathTime = Time.time;
         }
     }
 }

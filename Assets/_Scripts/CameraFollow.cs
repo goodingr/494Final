@@ -18,6 +18,8 @@ public class CameraFollow : MonoBehaviour {
 	public static CameraFollow C;
     public float verticalLensShiftOffset;
 
+    public bool freeze = false;
+
 	void Awake() {
 		C = this;
 	}
@@ -29,9 +31,13 @@ public class CameraFollow : MonoBehaviour {
         originOffset = transform.position;
 		player = Player.S.gameObject;
 	}
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update() {
+        if (freeze)
+        {
+            return;
+        }
         SetObliqueness(0, verticalLensShiftOffset);
         u = u + Time.deltaTime;
         Vector3 playerSizeCameraChange = new Vector3(0, 0, -Vector3.Magnitude(player.transform.localScale)) * playerSizeCameraChangeMultiplier;
