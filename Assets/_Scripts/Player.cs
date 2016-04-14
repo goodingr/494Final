@@ -68,7 +68,8 @@ public class Player : MonoBehaviour {
         if(deathTime != 0 && Time.time - deathTime > deathRestartTime)
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        }
+			Physics.gravity = new Vector3(0, -10, 0);
+		}
     }
 	
 	// Update is called once per frame
