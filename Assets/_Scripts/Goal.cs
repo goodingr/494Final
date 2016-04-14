@@ -42,8 +42,9 @@ public class Goal : MonoBehaviour {
             //particles.SetActive(true);
             Invoke("LoadNextLevel", 3f);
 			Player.S.GetComponent<Rigidbody> ().useGravity = false;
+			Display.S.StopTimer ();
 			levelWon = true;
-        }
+         }
     }
 
     void LoadNextLevel() {

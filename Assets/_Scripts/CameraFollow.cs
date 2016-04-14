@@ -43,13 +43,15 @@ public class CameraFollow : MonoBehaviour {
         u = u + Time.deltaTime;
         Vector3 playerSizeCameraChange = new Vector3(0, 0, -Vector3.Magnitude(player.transform.localScale)) * playerSizeCameraChangeMultiplier;
         Vector3 playerSpeedCameraChange = new Vector3(0, 0, -Vector3.Magnitude(player.GetComponent<Rigidbody>().velocity)) * playerSpeedCameraChangeMultiplier;
-        if (u < interpTime) {
+        if (u < interpTime && openingPan) {
             transform.position = player.transform.position + ((interpTime - u) * originOffset + u * (offset + playerSizeCameraChange + playerSpeedCameraChange)) / interpTime;
         }
         else
         {
             transform.position = player.transform.position + offset + playerSizeCameraChange + playerSpeedCameraChange;
             openingPan = false;
+			Display.S.StartTimer ();
+
         }
 
         if (!openingPan)

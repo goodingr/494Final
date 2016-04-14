@@ -9,7 +9,7 @@ public class Main : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 	    S = this;
-
+		Time.timeScale = 1;
 	}
 	
 	// Update is called once per frame
@@ -46,6 +46,7 @@ public class Main : MonoBehaviour {
 		SceneManager.LoadScene ("_Level_Select");
 	}
 	public void RestartScene() {
+		Time.timeScale = 1;
 		SceneManager.LoadScene (SceneManager.GetActiveScene ().buildIndex);
 	}
 	public void TogglePause() {
