@@ -45,4 +45,15 @@ public class Main : MonoBehaviour {
 	public void LoadLevelSelect() {
 		SceneManager.LoadScene ("_Level_Select");
 	}
+	public void RestartScene() {
+		SceneManager.LoadScene (SceneManager.GetActiveScene ().buildIndex);
+	}
+	public void TogglePause() {
+		if (Time.timeScale == 0) {
+			Time.timeScale = 1;
+		}
+		else {
+			Time.timeScale = 0;
+		}
+	}
 }
