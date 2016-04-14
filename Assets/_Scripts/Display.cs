@@ -3,9 +3,14 @@ using System.Collections;
 using UnityEngine.UI;
 
 public class Display : MonoBehaviour {
+	public static Display S;
 	public Text timerLabel;
 
-	private float time = 0f;
+	public float time = 0f;
+
+	void Start() {
+		S = this;
+	}
 
 	void FixedUpdate() {
 		time += Time.deltaTime;
