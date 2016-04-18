@@ -13,8 +13,12 @@ public class Space_plumber : MonoBehaviour {
 	public Vector3 transforms;
 	private bool tooClose = false;
 
-	// Use this for initialization
-	void Start () {
+    [Header("Movement")]
+    public float stretchDistance = 1;
+    public float verticalOffsetFromBall = 3f;
+
+    // Use this for initialization
+    void Start () {
 		lineRenderer = GetComponent<LineRenderer> ();
 		endMarker = Player.S.transform;
 		endx = endMarker.transform.position.x;
@@ -23,19 +27,26 @@ public class Space_plumber : MonoBehaviour {
 		journeyLength = Vector3.Distance(startMarker.position, endMarker.position);
 	}
 
+    void FixedUpdate()
+    {
+        transform.position = new Vector3(Player.S.transform.position.x + Input.GetAxis("Horizontal") * stretchDistance, Player.S.transform.position.y + verticalOffsetFromBall, 0);
+    }
+
 	// Update is called once per frame
 	void Update () {
-		//move towards the player
-		float distCovered = (Time.time - startTime) * speed;
-		float fracJourney = distCovered / journeyLength;
+		////move towards the player
+		//float distCovered = (Time.time - startTime) * speed;
+		//float fracJourney = distCovered / journeyLength;
 	
 		Vector3 vel = Player.S.GetComponent<Rigidbody> ().velocity;
-		if(vel.x >= 0 && tooClose == false)
-		//transform.position = Vector3.MoveTowards(transform.position, Player.S.transform.position, speed * Time.deltaTime);
-			transform.position = Vector3.MoveTowards(transform.position, new Vector3(Player.S.transform.position.x -  Player.S.transform.localScale.x - 2, Player.S.transform.position.y, Player.S.transform.position.z), speed * Time.deltaTime);
-		if(vel.x < 0 && tooClose == false)
-			transform.position = Vector3.MoveTowards(transform.position, new Vector3(Player.S.transform.position.x +  Player.S.transform.localScale.x + 2, Player.S.transform.position.y, Player.S.transform.position.z), speed * Time.deltaTime);
+		//if(vel.x >= 0 && tooClose == false)
+		////transform.position = Vector3.MoveTowards(transform.position, Player.S.transform.position, speed * Time.deltaTime);
+		//	transform.position = Vector3.MoveTowards(transform.position, new Vector3(Player.S.transform.position.x -  Player.S.transform.localScale.x - 2, Player.S.transform.position.y, Player.S.transform.position.z), speed * Time.deltaTime);
+		//if(vel.x < 0 && tooClose == false)
+		//	transform.position = Vector3.MoveTowards(transform.position, new Vector3(Player.S.transform.position.x +  Player.S.transform.localScale.x + 2, Player.S.transform.position.y, Player.S.transform.position.z), speed * Time.deltaTime);
 
+
+        //Rotation
 		GameObject rotateObject = new GameObject ();
 
 		if (vel.x > 1f)
@@ -48,8 +59,9 @@ public class Space_plumber : MonoBehaviour {
 		float step = 5f * Time.deltaTime;
 		transform.rotation = Quaternion.RotateTowards(transform.rotation, rotateObject.transform.rotation, step);
 
-		lineRenderer.SetWidth(0, Player.S.transform.localScale.x);
 
+        //LineRenderer
+		lineRenderer.SetWidth(0, Player.S.transform.localScale.x);
 
 		Vector3[] points = new Vector3[2];
 		float t = Time.time;
