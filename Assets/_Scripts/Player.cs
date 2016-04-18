@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class Player : MonoBehaviour {
 
     public static Player    S;
+	public  AudioSource audio;
     
 	public bool switchable = false;
     private int starsCollected = 0;
@@ -36,6 +37,7 @@ public class Player : MonoBehaviour {
 
     void Awake()
     {
+		audio = GetComponent<AudioSource>();
         if (!S)
         {
             S = this;
@@ -98,6 +100,7 @@ public class Player : MonoBehaviour {
 	}
     
     public void Absorb(GameObject go) {
+		audio.Play ();
         double radius = targetScale.x/2f;
 
         double volume = (4.0/3.0) * System.Math.PI * System.Math.Pow(radius, 3);
@@ -114,7 +117,7 @@ public class Player : MonoBehaviour {
         Destroy(go);
     }
     public void Exude(GameObject go) {
-            
+		audio.Play ();
         // Calculate current volume, subtract volume of 'Pickdown' and adjust scale
         double radius = targetScale.x/2f;
         double volume = (4.0/3.0) * System.Math.PI * System.Math.Pow(radius, 3);

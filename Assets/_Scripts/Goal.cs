@@ -7,6 +7,8 @@ public class Goal : MonoBehaviour {
 	static public Goal G;
     private Collider col;
 	public bool levelWon = false;
+	private bool warpMusicPlayed = false;
+	public AudioSource warpAudio;
 	// Use this for initialization
 
 	void Awake() {
@@ -16,7 +18,7 @@ public class Goal : MonoBehaviour {
 	void Start () {
 	    particles = transform.Find("Particles").gameObject;
         col = transform.GetComponent<Collider>();
-
+		warpAudio = GetComponent<AudioSource> ();
 	}
 
 	
@@ -41,6 +43,11 @@ public class Goal : MonoBehaviour {
         if(Utils.BoundsInBoundsCheck(other.bounds, col.bounds, BoundsTest.offScreen) == Vector3.zero) {
             //particles.SetActive(true);
             Invoke("LoadNextLevel", 3f);
+			if (!warpMusicPlayed) {
+				warpAudio.Play ();
+				print ("audio played");
+				warpMusicPlayed = true;
+			}
 			Player.S.GetComponent<Rigidbody> ().useGravity = false;
 			Display.S.StopTimer ();
 			levelWon = true;

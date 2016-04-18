@@ -7,7 +7,8 @@ public class PressurePlate : MonoBehaviour {
 
     public Door door;
     public float activeDuration = 3f;
-    protected BoxCollider boxCol;    
+    protected BoxCollider boxCol;  
+	public AudioSource audio;
     
     float activeStart;
 
@@ -15,7 +16,7 @@ public class PressurePlate : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 	    boxCol = gameObject.GetComponent<BoxCollider>();
-        
+		audio = GetComponent<AudioSource> ();
 	}
 	
 	// Update is called once per frame
@@ -42,6 +43,7 @@ public class PressurePlate : MonoBehaviour {
         Vector3 pos = transform.position;
         pos.y -= transform.localScale.y - .05f; 
         transform.position = pos;
+		audio.Play ();
     }
     void Deactivate() {
         activated = false;
