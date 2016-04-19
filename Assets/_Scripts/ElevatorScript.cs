@@ -10,11 +10,11 @@ public class ElevatorScript : MonoBehaviour
     public float floorWaitTime;
     public float timeBetweenFloors;
 
-    private int directionToggle = 1;
-    private float floorTime = 0;
-    private float u = 0;
-    private Vector3 lastFloorPos;
-    private Vector3 nextFloorPos;
+    public int directionToggle = 1;
+    public float floorTime = 0;
+    public float u = 0;
+    public Vector3 lastFloorPos;
+    public Vector3 nextFloorPos;
 
     // Use this for initialization
     void Start()
@@ -38,13 +38,15 @@ public class ElevatorScript : MonoBehaviour
         {
             lastFloorPos = nextFloorPos;
             transform.position = nextFloorPos;
-            if (directionToggle == 1 && startPos.y + (numStops-1) * stopHeight == transform.position.y)
+            if (directionToggle == 1 && Mathf.Abs(startPos.y + (numStops - 1) * stopHeight - transform.position.y) < .05f)
             {
                 directionToggle = -1;
+                transform.position = new Vector3(transform.position.x, startPos.y + (numStops - 1) * stopHeight, transform.position.z);
             }
-            else if (directionToggle == -1 && transform.position == startPos)
+            else if (directionToggle == -1 && transform.position.y - startPos.y < .05f)
             {
                 directionToggle = 1;
+                transform.position = startPos;
             }
             nextFloorPos = new Vector3(transform.position.x, transform.position.y + stopHeight * directionToggle, transform.position.z);
             u = 0;

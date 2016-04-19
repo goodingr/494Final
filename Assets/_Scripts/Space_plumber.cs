@@ -16,6 +16,12 @@ public class Space_plumber : MonoBehaviour {
     [Header("Movement")]
     public float stretchDistance = 1;
     public float verticalOffsetFromBall = 3f;
+    public float baseOffsetFromBall = 3f;
+    public Vector3 lastGravity = Physics.gravity;
+    public Vector3 curGravity = Physics.gravity;
+    public float currentVerticalOffset;
+    public float lastVerticalOffset;
+    public float u;
 
     // Use this for initialization
     void Start () {
@@ -25,20 +31,36 @@ public class Space_plumber : MonoBehaviour {
 		startMarker = transform;
 		startTime = Time.time;
 		journeyLength = Vector3.Distance(startMarker.position, endMarker.position);
-	}
+
+        currentVerticalOffset = verticalOffsetFromBall;
+        lastVerticalOffset = verticalOffsetFromBall;
+    }
 
     void FixedUpdate()
     {
-        transform.position = new Vector3(Player.S.transform.position.x + Input.GetAxis("Horizontal") * stretchDistance, Player.S.transform.position.y + verticalOffsetFromBall, 0);
+        if (!CameraFollow.C.freeze)
+        {
+            transform.position = new Vector3(Player.S.transform.position.x + Input.GetAxis("Horizontal") * stretchDistance * Player.S.transform.localScale.x, Player.S.transform.position.y + verticalOffsetFromBall * Player.S.transform.localScale.y, 0);
+        }
     }
 
 	// Update is called once per frame
 	void Update () {
+        u = u + Time.deltaTime;
+        if(Physics.gravity != curGravity)
+        {
+            lastGravity = curGravity;
+            curGravity = Physics.gravity;
+            lastVerticalOffset = currentVerticalOffset;
+            currentVerticalOffset = baseOffsetFromBall * -Physics.gravity.normalized.y;
+        }
+
+        verticalOffsetFromBall = currentVerticalOffset;
 		////move towards the player
 		//float distCovered = (Time.time - startTime) * speed;
 		//float fracJourney = distCovered / journeyLength;
 	
-		Vector3 vel = Player.S.GetComponent<Rigidbody> ().velocity;
+		Vector3 vel = Player.S.GetComponent<Rigidbody>().velocity;
 		//if(vel.x >= 0 && tooClose == false)
 		////transform.position = Vector3.MoveTowards(transform.position, Player.S.transform.position, speed * Time.deltaTime);
 		//	transform.position = Vector3.MoveTowards(transform.position, new Vector3(Player.S.transform.position.x -  Player.S.transform.localScale.x - 2, Player.S.transform.position.y, Player.S.transform.position.z), speed * Time.deltaTime);
@@ -58,18 +80,27 @@ public class Space_plumber : MonoBehaviour {
 		
 		float step = 5f * Time.deltaTime;
 		transform.rotation = Quaternion.RotateTowards(transform.rotation, rotateObject.transform.rotation, step);
-
+        Destroy(rotateObject);
 
         //LineRenderer
-		lineRenderer.SetWidth(0, Player.S.transform.localScale.x);
+        if (CameraFollow.C.freeze)
+        {
+            //lineRenderer.enabled = false;
+        }
+        else
+        {
+            lineRenderer.SetWidth(0, Player.S.transform.localScale.x);
 
-		Vector3[] points = new Vector3[2];
-		float t = Time.time;
-		int i = 0;
-		points [0] = transform.position;
-		points [1] = Player.S.transform.position;
+            Vector3[] points = new Vector3[2];
+            float t = Time.time;
+            int i = 0;
+            points[0] = transform.position;
+            points[1] = Player.S.transform.position;
+            points[0].z = .2f;
+            points[1].z = .2f;
 
-		lineRenderer.SetPositions(points);
+            lineRenderer.SetPositions(points);
+        }
 	}
 
 	void OnTriggerEnter(Collider coll) {

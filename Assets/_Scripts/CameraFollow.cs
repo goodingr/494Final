@@ -40,7 +40,7 @@ public class CameraFollow : MonoBehaviour {
             return;
         }
         SetObliqueness(0, verticalLensShiftOffset);
-        u = u + Time.deltaTime;
+        u = u + Time.deltaTime + Mathf.Pow(Time.deltaTime, 2);
         Vector3 playerSizeCameraChange = new Vector3(0, 0, -Vector3.Magnitude(player.transform.localScale)) * playerSizeCameraChangeMultiplier;
         Vector3 playerSpeedCameraChange = new Vector3(0, 0, -Vector3.Magnitude(player.GetComponent<Rigidbody>().velocity)) * playerSpeedCameraChangeMultiplier;
         if (u < interpTime && openingPan) {
