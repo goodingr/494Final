@@ -13,6 +13,8 @@ public class Space_plumber : MonoBehaviour {
 	public Vector3 transforms;
 	private bool tooClose = false;
 
+    public float lineZValue = .2f;
+
     [Header("Movement")]
     public float stretchDistance = 1;
     public float verticalOffsetFromBall = 3f;
@@ -49,18 +51,24 @@ public class Space_plumber : MonoBehaviour {
         u = u + Time.deltaTime;
         if(Physics.gravity != curGravity)
         {
+            u = 0;
             lastGravity = curGravity;
             curGravity = Physics.gravity;
             lastVerticalOffset = currentVerticalOffset;
             currentVerticalOffset = baseOffsetFromBall * -Physics.gravity.normalized.y;
         }
+        if (verticalOffsetFromBall != currentVerticalOffset)
+        {
+            verticalOffsetFromBall = Mathf.Lerp(lastVerticalOffset, currentVerticalOffset, u);
+        }
 
-        verticalOffsetFromBall = currentVerticalOffset;
-		////move towards the player
-		//float distCovered = (Time.time - startTime) * speed;
-		//float fracJourney = distCovered / journeyLength;
-	
-		Vector3 vel = Player.S.GetComponent<Rigidbody>().velocity;
+        //verticalOffsetFromBall = currentVerticalOffset;
+
+        ////move towards the player
+        //float distCovered = (Time.time - startTime) * speed;
+        //float fracJourney = distCovered / journeyLength;
+
+        Vector3 vel = Player.S.GetComponent<Rigidbody>().velocity;
 		//if(vel.x >= 0 && tooClose == false)
 		////transform.position = Vector3.MoveTowards(transform.position, Player.S.transform.position, speed * Time.deltaTime);
 		//	transform.position = Vector3.MoveTowards(transform.position, new Vector3(Player.S.transform.position.x -  Player.S.transform.localScale.x - 2, Player.S.transform.position.y, Player.S.transform.position.z), speed * Time.deltaTime);
@@ -96,8 +104,8 @@ public class Space_plumber : MonoBehaviour {
             int i = 0;
             points[0] = transform.position;
             points[1] = Player.S.transform.position;
-            points[0].z = .2f;
-            points[1].z = .2f;
+            points[0].z = lineZValue;
+            points[1].z = lineZValue;
 
             lineRenderer.SetPositions(points);
         }
