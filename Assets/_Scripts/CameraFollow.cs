@@ -18,6 +18,9 @@ public class CameraFollow : MonoBehaviour {
     public Vector3 inverseGravityOffset;
 	public static CameraFollow C;
     public float verticalLensShiftOffset;
+    public float currentLensShift;
+    public float lastLensShift;
+    public float nextLensShift;
 
     public bool freeze = false;
 
@@ -31,7 +34,11 @@ public class CameraFollow : MonoBehaviour {
         offset = regularGravityOffset;
         originOffset = transform.position;
 		player = Player.S.gameObject;
-	}
+        currentLensShift = verticalLensShiftOffset;
+        lastLensShift = verticalLensShiftOffset;
+        nextLensShift = verticalLensShiftOffset;
+        SetObliqueness(0, currentLensShift);
+    }
 
     // Update is called once per frame
     void Update() {
@@ -39,37 +46,44 @@ public class CameraFollow : MonoBehaviour {
         {
             return;
         }
-        SetObliqueness(0, verticalLensShiftOffset);
-        u = u + Time.deltaTime + Mathf.Pow(Time.deltaTime, 2);
+        u = u + Time.deltaTime;
         Vector3 playerSizeCameraChange = new Vector3(0, 0, -Vector3.Magnitude(player.transform.localScale)) * playerSizeCameraChangeMultiplier;
         Vector3 playerSpeedCameraChange = new Vector3(0, 0, -Vector3.Magnitude(player.GetComponent<Rigidbody>().velocity)) * playerSpeedCameraChangeMultiplier;
-        if (u < interpTime && openingPan) {
+        if (openingPan && u < interpTime) {
             transform.position = player.transform.position + ((interpTime - u) * originOffset + u * (offset + playerSizeCameraChange + playerSpeedCameraChange)) / interpTime;
+        }
+        else if(u < interpTime)
+        {
+            transform.position = player.transform.position + ((interpTime - u) * originOffset + u * (offset + playerSizeCameraChange + playerSpeedCameraChange)) / interpTime;
+            currentLensShift = Mathf.Lerp(lastLensShift, nextLensShift, u);
         }
         else
         {
             transform.position = player.transform.position + offset + playerSizeCameraChange + playerSpeedCameraChange;
             openingPan = false;
-			Display.S.StartTimer ();
-
         }
 
         if (!openingPan)
         {
             Player.S.allowMovement = true;
+            Display.S.StartTimer();
         }
-		
+
         if (Physics.gravity.y < 0 && offset != regularGravityOffset)
         {
             originOffset = offset;
             offset = regularGravityOffset;
             u = 0;
+            lastLensShift = currentLensShift;
+            nextLensShift = verticalLensShiftOffset;
         }
         else if(Physics.gravity.y > 0 && offset != inverseGravityOffset)
         {
             originOffset = offset;
             offset = inverseGravityOffset;
             u = 0;
+            lastLensShift = currentLensShift;
+            nextLensShift = -verticalLensShiftOffset;
         }
 
         if (Input.GetKeyDown(KeyCode.R))
