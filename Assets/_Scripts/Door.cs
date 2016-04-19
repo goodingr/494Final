@@ -10,7 +10,7 @@ public class Door : MonoBehaviour {
 
 
     Vector3 posClosed;
-    Vector3 posOpen;
+    public Vector3 posOpen;
     float moveStart;
     
     State state = State.Closed;
@@ -18,8 +18,11 @@ public class Door : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 	    posClosed = transform.position;
-        posOpen = posClosed;
-        posOpen.y += openOffset;
+        if (posOpen == Vector3.zero)
+        {
+            posOpen = posClosed;
+            posOpen.y += openOffset;
+        }
 	}
 	
 	// Update is called once per frame

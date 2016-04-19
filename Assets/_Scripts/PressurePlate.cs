@@ -25,12 +25,19 @@ public class PressurePlate : MonoBehaviour {
             Deactivate();
         }
 	}
-    
+
     void OnCollisionStay(Collision col) {
-        if(activated) return;
-        
-        if(col.gameObject.tag == "Player") {
-            if(Player.S.col.bounds.min.y >= boxCol.bounds.max.y - 0.01f)
+        if (activated) return;
+
+        if (col.gameObject.tag == "Player") {
+            if (Player.S.col.bounds.min.y >= boxCol.bounds.max.y - 0.01f)
+            {
+                Activate();
+            }
+        }
+        else if (col.gameObject.tag == "MoveableObject")
+        {
+            if (col.collider.bounds.min.y >= boxCol.bounds.max.y - 0.01f)
             {
                 Activate();
             }
