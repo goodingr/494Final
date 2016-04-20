@@ -9,6 +9,7 @@ public class ElevatorScript : MonoBehaviour
     public float stopHeight;
     public float floorWaitTime;
     public float timeBetweenFloors;
+	public AudioSource audio;
 
     public int directionToggle = 1;
     public float floorTime = 0;
@@ -19,6 +20,7 @@ public class ElevatorScript : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+		audio = GetComponent<AudioSource> ();
         startPos = transform.position;
         lastFloorPos = startPos;
         nextFloorPos = new Vector3(transform.position.x, transform.position.y + stopHeight * directionToggle, transform.position.z);
@@ -60,4 +62,10 @@ public class ElevatorScript : MonoBehaviour
             }
         }
     }
+
+	void OnCollisionEnter(Collision coll) {
+		if(coll.gameObject.tag == "Player") {
+			audio.Play();
+		}
+	}
 }
