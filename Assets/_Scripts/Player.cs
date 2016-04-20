@@ -79,6 +79,8 @@ public class Player : MonoBehaviour {
         if (allowMovement)
         {
             float iH;
+		
+		
             if (isMobile)
             {
                 iH = Input.acceleration.x;
@@ -87,6 +89,10 @@ public class Player : MonoBehaviour {
             {
                 iH = Input.GetAxis("Horizontal");
             }
+			if (iH < 0 && rigid.velocity.x > 0 || 
+				iH > 0 && rigid.velocity.x < 0) {
+				iH *= 8;
+			}
             Vector3 movement = new Vector3(iH, 0, 0.0f);
             rigid.AddForce(movement * speed);
 
