@@ -93,7 +93,7 @@ public class Space_plumber : MonoBehaviour {
         //LineRenderer
         if (CameraFollow.C.freeze)
         {
-            //lineRenderer.enabled = false;
+            lineRenderer.enabled = false;
         }
         else
         {
