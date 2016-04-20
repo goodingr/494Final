@@ -3,6 +3,7 @@ using System.Collections;
 
 public class Music : MonoBehaviour {
 
+	public static Music M;
 	public AudioSource audio1;
 	public AudioSource audio2;
 	public AudioSource audio3;
@@ -11,6 +12,10 @@ public class Music : MonoBehaviour {
 	private bool playing1 = false;
 	private bool playing2 = false;
 	private bool playing3 = false;
+
+	void Awake() {
+		M = this;
+	}
 
 	// Use this for initialization
 	void Start () {
@@ -28,6 +33,7 @@ public class Music : MonoBehaviour {
 
 	IEnumerator level1() {
 		audio1.Play ();
+		print ("Audio 1 palying");
 		yield return new WaitForSeconds (audio1.clip.length);
 		StartCoroutine(level2 ());
 	}
@@ -42,5 +48,12 @@ public class Music : MonoBehaviour {
 		audio3.Play ();
 		yield return new WaitForSeconds (audio3.clip.length);
 		StartCoroutine(level1 ());
+	}
+
+	public void toggleMute() {
+		if (AudioListener.volume == 1)
+			AudioListener.volume = 0;
+		else
+			AudioListener.volume = 1;
 	}
 }
