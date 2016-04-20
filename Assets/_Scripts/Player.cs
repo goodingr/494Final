@@ -22,6 +22,7 @@ public class Player : MonoBehaviour {
 
     [Header("Movement")]
     public float            speed;
+	public float 			turnMult = 4;
     public bool allowMovement = false;
     
     public float scaleDuration = 1.0f;
@@ -89,9 +90,10 @@ public class Player : MonoBehaviour {
             {
                 iH = Input.GetAxis("Horizontal");
             }
+			// This allows the player to change directions quicker.
 			if (iH < 0 && rigid.velocity.x > 0 || 
 				iH > 0 && rigid.velocity.x < 0) {
-				iH *= 8;
+				iH *= turnMult;
 			}
             Vector3 movement = new Vector3(iH, 0, 0.0f);
             rigid.AddForce(movement * speed);
