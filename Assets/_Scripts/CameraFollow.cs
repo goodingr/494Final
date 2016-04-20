@@ -17,10 +17,10 @@ public class CameraFollow : MonoBehaviour {
     public Vector3 regularGravityOffset;
     public Vector3 inverseGravityOffset;
 	public static CameraFollow C;
-    public float verticalLensShiftOffset;
-    public float currentLensShift;
-    public float lastLensShift;
-    public float nextLensShift;
+    public float verticalLensShiftOffset; 
+    private float currentLensShift;
+    private float lastLensShift;
+    private float nextLensShift;
 
     public bool freeze = false;
 
