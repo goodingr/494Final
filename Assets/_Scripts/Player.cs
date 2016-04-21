@@ -84,7 +84,15 @@ public class Player : MonoBehaviour {
 		
             if (isMobile)
             {
-                iH = Input.acceleration.x;
+                iH = Input.acceleration.x * 2;
+                if (iH > 1.5f)
+                {
+                    iH = 1.5f;
+                }
+                else if (iH < -1.5f)
+                {
+                    iH = -1.5f;
+                }
             }
             else
             {

@@ -42,7 +42,23 @@ public class Space_plumber : MonoBehaviour {
     {
         if (!CameraFollow.C.freeze)
         {
-            transform.position = new Vector3(Player.S.transform.position.x + Input.GetAxis("Horizontal") * stretchDistance * Player.S.transform.localScale.x, Player.S.transform.position.y + verticalOffsetFromBall * Player.S.transform.localScale.y, 0);
+            float input;
+            if (!Player.S.isMobile)
+            {
+                input = Input.GetAxis("Horizontal");
+            } else
+            {
+                input = Input.acceleration.x * 2;
+                if (input > 1.5)
+                {
+                    input = 1.5f;
+                }
+                else if (input < -1.5)
+                {
+                    input = -1.5f;
+                }
+            }
+            transform.position = new Vector3(Player.S.transform.position.x + input * stretchDistance * Player.S.transform.localScale.x, Player.S.transform.position.y + verticalOffsetFromBall * Player.S.transform.localScale.y, 0);
         }
     }
 
