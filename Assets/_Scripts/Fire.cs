@@ -31,6 +31,7 @@ public class Fire : MonoBehaviour {
 		}
 		if (col.gameObject.tag == "MoveableObject" && !putOutTriggered) {
 			gameObject.GetComponent<SpriteRenderer> ().enabled = false;
+			audio.Play ();
 			triggerObject.GetComponent<Balloon> ().setPutOutTrigger ();
 		}
 	}
