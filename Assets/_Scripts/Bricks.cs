@@ -6,6 +6,8 @@ public class Bricks : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		StartCoroutine(DestroyBrick());
+		GetComponent<AudioSource> ().Play ();
+
 	}
 
 	IEnumerator DestroyBrick() {

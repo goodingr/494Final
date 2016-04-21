@@ -3,12 +3,11 @@ using System.Collections;
 
 public class PressurePlate : MonoBehaviour {
     
-    
-
     public Door door;
     public float activeDuration = 3f;
     protected BoxCollider boxCol;  
 	public AudioSource audio;
+	public bool flipped = false;
     
     float activeStart;
 
@@ -21,9 +20,12 @@ public class PressurePlate : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	    if(activated && Time.time >= activeStart + activeDuration) {
+	    if(activated && Time.time >= activeStart + activeDuration && !flipped) {
             Deactivate();
         }
+		if (activated && Time.time >= activeStart + activeDuration && flipped) {
+			DeactivateFlipped ();
+		}
 	}
 
     void OnCollisionStay(Collision col) {
@@ -41,6 +43,9 @@ public class PressurePlate : MonoBehaviour {
             {
                 Activate();
             }
+			if (flipped) {
+				ActivateFlipped ();
+			}
         }
     }
     void Activate() {
@@ -59,4 +64,21 @@ public class PressurePlate : MonoBehaviour {
         pos.y += transform.localScale.y - .05f; 
         transform.position = pos;
     }
+
+	void ActivateFlipped() {
+		activeStart = Time.time;
+		activated = true;
+		door.Open();
+		Vector3 pos = transform.position;
+		pos.y += transform.localScale.y - .05f; 
+		transform.position = pos;
+		audio.Play ();
+	}
+	void DeactivateFlipped() {
+		activated = false;
+		door.Close();
+		Vector3 pos = transform.position;
+		pos.y -= transform.localScale.y - .05f; 
+		transform.position = pos;
+	}
 }
