@@ -86,7 +86,7 @@ public class CameraFollow : MonoBehaviour {
             nextLensShift = -verticalLensShiftOffset;
         }
 
-        if (Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
             Physics.gravity = new Vector3(0, -10, 0);
