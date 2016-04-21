@@ -48,7 +48,9 @@ public class Main : MonoBehaviour {
 	public void RestartScene() {
 		Time.timeScale = 1;
 		SceneManager.LoadScene (SceneManager.GetActiveScene ().buildIndex);
+        Physics.gravity = new Vector3(0, -10, 0);
 	}
+
 	public void TogglePause() {
 		if (Time.timeScale == 0) {
 			Time.timeScale = 1;
