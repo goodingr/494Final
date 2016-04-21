@@ -20,7 +20,7 @@ public class Main : MonoBehaviour {
 		}
 	}
 	public void PlayGame() {
-		SceneManager.LoadScene ("Scene_1 (Intro)");
+		SceneManager.LoadScene ("Scene_1");
 	}
     public void LoadNextLevel() {
 		// Reset gravity
